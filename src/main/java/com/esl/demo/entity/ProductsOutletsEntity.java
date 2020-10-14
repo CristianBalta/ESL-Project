@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class ProductsOutletsEntity {
 
     @EmbeddedId
+    @Column
     private LinkId productsOutletsId;
 
     @Column
