@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class ESLServiceImpl implements ESLService {
     @Override
     public ESLDto getById(Long id) {

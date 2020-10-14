@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class ProductsOutletsServiceImpl implements ProductsOutletsService {
     @Override
     public ProductsOutletsDto getById(LinkId id) {

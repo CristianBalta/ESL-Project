@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class OutletServiceImpl implements OutletService {
     @Override
     public OutletDto getById(Long id) {
