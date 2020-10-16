@@ -7,13 +7,18 @@ import java.io.Serializable;
 @Embeddable
 public class LinkId implements Serializable {
 
-    @Column(name = "outlet_id")
+    @Column
     Long outletId;
 
-    @Column(name = "product_id")
+    @Column
     Long productId;
 
     public LinkId() {
+    }
+
+    public LinkId(Long outletId, Long productId) {
+        this.outletId = outletId;
+        this.productId = productId;
     }
 
     public Long getProductId() {

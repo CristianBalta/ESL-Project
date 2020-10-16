@@ -13,6 +13,14 @@ public class ProductsOutletsEntity {
     @Column
     private LinkId productsOutletsId;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapsId("productId")
+    private ProductEntity productEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapsId("outletId")
+    private OutletEntity outletEntity;
+
     @Column
     private Long price;
 
@@ -38,6 +46,22 @@ public class ProductsOutletsEntity {
         this.price = price;
     }
 
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
+    }
+
+    public OutletEntity getOutletEntity() {
+        return outletEntity;
+    }
+
+    public void setOutletEntity(OutletEntity outletEntity) {
+        this.outletEntity = outletEntity;
+    }
+
     public Boolean getDeleted() {
         return deleted;
     }
@@ -50,7 +74,9 @@ public class ProductsOutletsEntity {
 
         ProductsOutletsDto returnDto = new ProductsOutletsDto();
 
-        returnDto.setProductsOutletsId(this.productsOutletsId);
+        returnDto.setProductId(this.productsOutletsId.getProductId());
+
+        returnDto.setOutletId(this.productsOutletsId.getOutletId());
 
         returnDto.setDeleted(this.deleted);
 

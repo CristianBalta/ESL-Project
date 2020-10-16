@@ -5,7 +5,9 @@ import com.esl.demo.entity.compositeKeys.LinkId;
 
 public class ProductsOutletsDto {
 
-    private LinkId productsOutletsId;
+    private Long productId;
+
+    private Long outletId;
 
     private Boolean deleted = false;
 
@@ -14,12 +16,20 @@ public class ProductsOutletsDto {
     public ProductsOutletsDto() {
     }
 
-    public LinkId getProductsOutletsId() {
-        return productsOutletsId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductsOutletsId(LinkId productsOutletsId) {
-        this.productsOutletsId = productsOutletsId;
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getOutletId() {
+        return outletId;
+    }
+
+    public void setOutletId(Long outletId) {
+        this.outletId = outletId;
     }
 
     public Boolean getDeleted() {
@@ -42,7 +52,7 @@ public class ProductsOutletsDto {
 
         ProductsOutletsEntity returnEntity = new ProductsOutletsEntity();
 
-        returnEntity.setProductsOutletsId(this.productsOutletsId);
+        returnEntity.setProductsOutletsId(new LinkId(this.productId, this.outletId));
 
         returnEntity.setPrice(this.price);
 
