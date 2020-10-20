@@ -102,6 +102,7 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
         returnEntity.setOutlet(outletEntity);
         returnEntity.setProduct(productEntity);
         returnEntity.setPrice(productsOutletsDto.getPrice());
+        returnEntity.setDeleted(productsOutletsDto.getDeleted());
 
         return returnEntity;
 
