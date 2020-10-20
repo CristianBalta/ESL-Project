@@ -3,23 +3,30 @@ package com.esl.demo.entity;
 import com.esl.demo.dto.ProductsOutletsDto;
 import com.esl.demo.entity.compositeKeys.LinkId;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "products_outlets")
 public class ProductsOutletsEntity {
 
     @EmbeddedId
-    @Column
-    private LinkId productsOutletsId;
+    private LinkId productsOutletsId = new LinkId();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("productId")
-    private ProductEntity productEntity;
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("outletId")
-    private OutletEntity outletEntity;
+    @JoinColumn(name ="outlet_id")
+    private OutletEntity outlet;
 
     @Column
     private Long price;
@@ -46,20 +53,22 @@ public class ProductsOutletsEntity {
         this.price = price;
     }
 
-    public ProductEntity getProductEntity() {
-        return productEntity;
+    public ProductEntity getProduct() {
+        return product;
     }
 
-    public void setProductEntity(ProductEntity productEntity) {
-        this.productEntity = productEntity;
+    public ProductsOutletsEntity setProduct(ProductEntity product) {
+        this.product = product;
+        return this;
     }
 
-    public OutletEntity getOutletEntity() {
-        return outletEntity;
+    public OutletEntity getOutlet() {
+        return outlet;
     }
 
-    public void setOutletEntity(OutletEntity outletEntity) {
-        this.outletEntity = outletEntity;
+    public ProductsOutletsEntity setOutlet(OutletEntity outlet) {
+        this.outlet = outlet;
+        return this;
     }
 
     public Boolean getDeleted() {
