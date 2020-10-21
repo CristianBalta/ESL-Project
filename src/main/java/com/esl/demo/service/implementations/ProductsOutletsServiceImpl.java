@@ -91,8 +91,6 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
 
         ProductsOutletsEntity returnEntity = new ProductsOutletsEntity();
 
-        LinkId linkId = new LinkId();
-
         ProductEntity productEntity = productRepository.findById(productsOutletsDto.getProductId()).orElseThrow(() -> {
             throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
         });
@@ -101,10 +99,9 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
             throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
         });
 
-        linkId.setProductId(productEntity.getId());
-        linkId.setOutletId(outletEntity.getId());
-
-        returnEntity.setProductsOutletsId(linkId);
+        returnEntity.setOutlet(outletEntity);
+        returnEntity.setProduct(productEntity);
+        returnEntity.setPrice(productsOutletsDto.getPrice());
 
         return returnEntity;
 
