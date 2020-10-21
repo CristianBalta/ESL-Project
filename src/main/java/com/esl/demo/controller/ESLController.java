@@ -1,35 +1,94 @@
 package com.esl.demo.controller;
 
+import com.esl.demo.dto.ESLDto;
+import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.ErrorConstants;
+import com.esl.demo.rest.errors.ResourceNotFoundException;
+import com.esl.demo.service.interfaces.ESLService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/esls")
-public class ESLController implements AbstractController{
+public class ESLController implements AbstractController<ESLDto, Long> {
 
-    @Override
-    public ResponseEntity getById(Object id) {
-        return null;
+    private final ESLService eslService;
+
+    public ESLController(ESLService eslService) {
+        this.eslService = eslService;
     }
 
+    @GetMapping("/{id}")
+    @Override
+    public ResponseEntity getById(@PathVariable Long id) {
+
+        try {
+
+            return ResponseEntity.ok(eslService.getById(id));
+
+        } catch (ResourceNotFoundException ex) {
+
+            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping
     @Override
     public ResponseEntity getAll() {
-        return null;
+
+        try {
+
+            return ResponseEntity.ok(eslService.getAll());
+
+        } catch (BadRequestException ex) {
+            throw new BadRequestException(ErrorConstants.ERR_EMPTY_LIST, HttpStatus.NO_CONTENT);
+        }
+
     }
 
+    @PostMapping
     @Override
-    public ResponseEntity add(Object o) {
-        return null;
+    public ResponseEntity add(@RequestBody ESLDto eslDto) {
+
+        try {
+            return ResponseEntity.ok(eslService.add(eslDto));
+
+        } catch (ResourceNotFoundException ex) {
+            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
     }
 
+    @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity deleteById(Object id) {
-        return null;
+    public ResponseEntity deleteById(@PathVariable Long id) {
+
+        try {
+
+            eslService.delete(id);
+
+        } catch (ResourceNotFoundException ex) {
+
+            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+
     }
 
+    @PutMapping
     @Override
-    public ResponseEntity update(Object o) {
-        return null;
+    public ResponseEntity update(@RequestBody ESLDto eslDto) {
+
+        try {
+            return ResponseEntity.ok(eslService.update(eslDto));
+
+        } catch (ResourceNotFoundException ex) {
+            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
     }
+
 }
