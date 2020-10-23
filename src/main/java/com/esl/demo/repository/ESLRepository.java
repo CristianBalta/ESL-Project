@@ -12,5 +12,4 @@ public interface ESLRepository extends CrudRepository<ESLEntity, Long> {
     ESLEntity getById(Long id);
 
     List<ESLEntity> findAll();
-
 }

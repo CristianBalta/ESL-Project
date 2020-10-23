@@ -15,5 +15,4 @@ public interface ESLService {
     ESLDto update(ESLDto eslDto);
 
     void delete(Long id);
-
 }

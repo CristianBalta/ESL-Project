@@ -8,7 +8,7 @@ public class ProductDto {
 
     private String name;
 
-    private Boolean deleted = false;
+    private Boolean deleted;
 
     public ProductDto() {
     }
@@ -42,12 +42,9 @@ public class ProductDto {
         ProductEntity returnEntity = new ProductEntity();
 
         returnEntity.setId(this.id);
-
         returnEntity.setName(this.name);
-
         returnEntity.setDeleted(this.deleted);
 
         return returnEntity;
     }
-
 }

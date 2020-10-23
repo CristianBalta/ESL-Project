@@ -16,14 +16,13 @@ public class OutletEntity {
     private String name;
 
     @Column
-    private Boolean deleted = false;
+    private Boolean deleted;
 
     @Column
     private String code;
 
     public OutletEntity() {
     }
-
 
     public Long getId() {
         return id;
@@ -62,14 +61,9 @@ public class OutletEntity {
         OutletDto returnDto = new OutletDto();
 
         returnDto.setId(this.id);
-
         returnDto.setName(this.name);
-
         returnDto.setDeleted(this.deleted);
-
         returnDto.setCode(this.code);
-
         return returnDto;
     }
-
 }

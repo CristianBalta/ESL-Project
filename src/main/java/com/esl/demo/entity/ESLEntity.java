@@ -1,11 +1,8 @@
 package com.esl.demo.entity;
 
 import com.esl.demo.dto.ESLDto;
-import com.esl.demo.entity.compositeKeys.LinkId;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "esls")
@@ -19,11 +16,7 @@ public class ESLEntity {
     private String size;
 
     @Column
-    private Boolean deleted = false;
-
-    @Column
-    @ElementCollection
-    private Set<LinkId> eslLinks = new HashSet<>();
+    private Boolean deleted;
 
     public ESLEntity() {
     }
@@ -52,27 +45,13 @@ public class ESLEntity {
         this.deleted = deleted;
     }
 
-    public Set<LinkId> getEslLinks() {
-        return eslLinks;
-    }
-
-    public void setEslLinks(Set<LinkId> eslLinks) {
-        this.eslLinks = eslLinks;
-    }
-
     public ESLDto convertToDto() {
 
         ESLDto returnDto = new ESLDto();
 
         returnDto.setId(this.id);
-
-        returnDto.setEslLinks(this.eslLinks);
-
-        returnDto.setDeleted(this.deleted);
-
         returnDto.setSize(this.size);
-
+        returnDto.setDeleted(this.deleted);
         return returnDto;
     }
-
 }

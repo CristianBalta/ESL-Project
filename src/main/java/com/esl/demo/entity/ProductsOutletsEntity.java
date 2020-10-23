@@ -1,7 +1,7 @@
 package com.esl.demo.entity;
 
 import com.esl.demo.dto.ProductsOutletsDto;
-import com.esl.demo.entity.compositeKeys.LinkId;
+import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class ProductsOutletsEntity {
 
     @EmbeddedId
-    private LinkId productsOutletsId = new LinkId();
+    private ProductsOutletsLinkId productsOutletsId = new ProductsOutletsLinkId();
 
     @ManyToOne
     @MapsId("productId")
@@ -25,23 +25,23 @@ public class ProductsOutletsEntity {
 
     @ManyToOne
     @MapsId("outletId")
-    @JoinColumn(name ="outlet_id")
+    @JoinColumn(name = "outlet_id")
     private OutletEntity outlet;
 
     @Column
     private Long price;
 
     @Column
-    private Boolean deleted = false;
+    private Boolean deleted;
 
     public ProductsOutletsEntity() {
     }
 
-    public LinkId getProductsOutletsId() {
+    public ProductsOutletsLinkId getProductsOutletsId() {
         return productsOutletsId;
     }
 
-    public void setProductsOutletsId(LinkId productsOutletsId) {
+    public void setProductsOutletsId(ProductsOutletsLinkId productsOutletsId) {
         this.productsOutletsId = productsOutletsId;
     }
 
@@ -84,14 +84,9 @@ public class ProductsOutletsEntity {
         ProductsOutletsDto returnDto = new ProductsOutletsDto();
 
         returnDto.setProductId(this.productsOutletsId.getProductId());
-
         returnDto.setOutletId(this.productsOutletsId.getOutletId());
-
         returnDto.setDeleted(this.deleted);
-
         returnDto.setPrice(this.price);
-
         return returnDto;
     }
-
 }

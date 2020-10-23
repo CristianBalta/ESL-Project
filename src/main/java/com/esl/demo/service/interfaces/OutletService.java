@@ -15,5 +15,4 @@ public interface OutletService {
     OutletDto update(OutletDto outletDto);
 
     void delete(Long id);
-
 }
