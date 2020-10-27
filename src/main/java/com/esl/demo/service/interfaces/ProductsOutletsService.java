@@ -1,13 +1,13 @@
 package com.esl.demo.service.interfaces;
 
 import com.esl.demo.dto.ProductsOutletsDto;
-import com.esl.demo.entity.compositeKeys.LinkId;
+import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
 
 import java.util.List;
 
 public interface ProductsOutletsService {
 
-    ProductsOutletsDto getById(LinkId id);
+    ProductsOutletsDto getById(ProductsOutletsLinkId id);
 
     List<ProductsOutletsDto> getAll();
 
@@ -15,6 +15,5 @@ public interface ProductsOutletsService {
 
     ProductsOutletsDto update(ProductsOutletsDto productsOutletsDto);
 
-    void delete(LinkId id);
-
+    void delete(ProductsOutletsLinkId id);
 }

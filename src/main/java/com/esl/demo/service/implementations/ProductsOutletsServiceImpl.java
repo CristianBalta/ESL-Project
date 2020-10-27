@@ -4,7 +4,7 @@ import com.esl.demo.dto.ProductsOutletsDto;
 import com.esl.demo.entity.OutletEntity;
 import com.esl.demo.entity.ProductEntity;
 import com.esl.demo.entity.ProductsOutletsEntity;
-import com.esl.demo.entity.compositeKeys.LinkId;
+import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
 import com.esl.demo.repository.OutletRepository;
 import com.esl.demo.repository.ProductRepository;
 import com.esl.demo.repository.ProductsOutletsRepository;
@@ -31,14 +31,13 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
     }
 
     @Override
-    public ProductsOutletsDto getById(LinkId id) {
+    public ProductsOutletsDto getById(ProductsOutletsLinkId productsOutletsLinkId) {
 
-        return productsOutletsRepository.findById(id)
+        return productsOutletsRepository.findByProductIdAndOutletId(productsOutletsLinkId.getProductId(), productsOutletsLinkId.getOutletId())
                 .orElseThrow(() -> {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 })
                 .convertToDto();
-
     }
 
     @Override
@@ -47,44 +46,37 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
         return productsOutletsRepository.findAll().stream()
                 .map(ProductsOutletsEntity::convertToDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public ProductsOutletsDto add(ProductsOutletsDto productsOutletsDto) {
 
         return productsOutletsRepository.save(addForeignFieldsToEntity(productsOutletsDto)).convertToDto();
-
     }
 
     @Override
     public ProductsOutletsDto update(ProductsOutletsDto productsOutletsDto) {
 
         ProductsOutletsEntity updatedEntity = productsOutletsRepository
-                .findById(new LinkId(productsOutletsDto.getProductId(), productsOutletsDto.getOutletId()))
+                .findByProductIdAndOutletId(productsOutletsDto.getProductId(), productsOutletsDto.getOutletId())
                 .orElseThrow(() -> {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 });
-
-        if (productsOutletsDto.getPrice() != null)
-            updatedEntity.setPrice(productsOutletsDto.getPrice());
-        if (productsOutletsDto.getDeleted() == null)
-            updatedEntity.setDeleted(productsOutletsDto.getDeleted());
+        updatedEntity.setPrice(productsOutletsDto.getPrice());
+        updatedEntity.setDeleted(productsOutletsDto.getDeleted());
 
         return productsOutletsRepository.save(updatedEntity).convertToDto();
-
     }
 
     @Override
-    public void delete(LinkId id) {
+    public void delete(ProductsOutletsLinkId productsOutletsLinkId) {
 
-        ProductsOutletsEntity deletedEntity = productsOutletsRepository.findById(id).orElseThrow(() -> {
+        ProductsOutletsEntity deletedEntity = productsOutletsRepository.findByProductIdAndOutletId(productsOutletsLinkId.getProductId(), productsOutletsLinkId.getOutletId()).orElseThrow(() -> {
             throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
         });
 
         deletedEntity.setDeleted(true);
         productsOutletsRepository.save(deletedEntity);
-
     }
 
     private ProductsOutletsEntity addForeignFieldsToEntity(ProductsOutletsDto productsOutletsDto) {
@@ -102,9 +94,9 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
         returnEntity.setOutlet(outletEntity);
         returnEntity.setProduct(productEntity);
         returnEntity.setPrice(productsOutletsDto.getPrice());
+        returnEntity.setDeleted(productsOutletsDto.getDeleted());
 
         return returnEntity;
-
     }
 
 }

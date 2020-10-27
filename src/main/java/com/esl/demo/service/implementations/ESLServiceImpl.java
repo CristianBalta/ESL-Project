@@ -28,7 +28,6 @@ public class ESLServiceImpl implements ESLService {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 })
                 .convertToDto();
-
     }
 
     @Override
@@ -37,14 +36,14 @@ public class ESLServiceImpl implements ESLService {
         return eslRepository.findAll().stream()
                 .map(ESLEntity::convertToDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public ESLDto add(ESLDto eslDto) {
 
-        return eslRepository.save(eslDto.convertToEntity()).convertToDto();
+        ESLEntity eslEntity = eslDto.convertToEntity();
 
+        return eslRepository.save(eslEntity).convertToDto();
     }
 
     @Override
@@ -55,16 +54,10 @@ public class ESLServiceImpl implements ESLService {
                 .orElseThrow(() -> {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 });
-
-        if (eslDto.getSize() != null)
-            updatedEntity.setSize(eslDto.getSize());
-        if (eslDto.getDeleted() != null)
-            updatedEntity.setEslLinks(eslDto.getEslLinks());
-        if (eslDto.getDeleted() == null)
-            updatedEntity.setDeleted(eslDto.getDeleted());
+        updatedEntity.setSize(eslDto.getSize());
+        updatedEntity.setDeleted(eslDto.getDeleted());
 
         return eslRepository.save(updatedEntity).convertToDto();
-
     }
 
     @Override
@@ -76,6 +69,5 @@ public class ESLServiceImpl implements ESLService {
 
         deletedEntity.setDeleted(true);
         eslRepository.save(deletedEntity);
-
     }
 }

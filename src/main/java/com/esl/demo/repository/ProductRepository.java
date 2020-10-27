@@ -12,5 +12,4 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
     ProductEntity getById(Long id);
 
     List<ProductEntity> findAll();
-
 }

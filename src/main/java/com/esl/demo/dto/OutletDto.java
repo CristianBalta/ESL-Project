@@ -8,7 +8,7 @@ public class OutletDto {
 
     private String name;
 
-    private Boolean deleted = false;
+    private Boolean deleted;
 
     private String code;
 
@@ -52,14 +52,10 @@ public class OutletDto {
         OutletEntity returnEntity = new OutletEntity();
 
         returnEntity.setId(this.id);
-
         returnEntity.setName(this.name);
-
         returnEntity.setDeleted(this.deleted);
-
         returnEntity.setCode(this.code);
 
         return returnEntity;
     }
-
 }

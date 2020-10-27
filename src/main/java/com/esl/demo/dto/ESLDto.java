@@ -1,10 +1,6 @@
 package com.esl.demo.dto;
 
 import com.esl.demo.entity.ESLEntity;
-import com.esl.demo.entity.compositeKeys.LinkId;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class ESLDto {
 
@@ -12,9 +8,7 @@ public class ESLDto {
 
     private String size;
 
-    private Boolean deleted = false;
-
-    private Set<LinkId> eslLinks = new HashSet<>();
+    private Boolean deleted;
 
     public ESLDto() {
     }
@@ -31,8 +25,8 @@ public class ESLDto {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setSize(String name) {
+        this.size = name;
     }
 
     public Boolean getDeleted() {
@@ -43,25 +37,13 @@ public class ESLDto {
         this.deleted = deleted;
     }
 
-    public Set<LinkId> getEslLinks() {
-        return eslLinks;
-    }
-
-    public void setEslLinks(Set<LinkId> eslLinks) {
-        this.eslLinks = eslLinks;
-    }
-
     public ESLEntity convertToEntity() {
 
         ESLEntity returnEntity = new ESLEntity();
 
         returnEntity.setId(this.id);
-
-        returnEntity.setEslLinks(this.eslLinks);
-
-        returnEntity.setDeleted(this.deleted);
-
         returnEntity.setSize(this.size);
+        returnEntity.setDeleted(this.deleted);
 
         return returnEntity;
     }

@@ -24,14 +24,10 @@ public class OutletController implements AbstractController<OutletDto, Long> {
     public ResponseEntity getById(@PathVariable Long id) {
 
         try {
-
             return ResponseEntity.ok(outletService.getById(id));
-
         } catch (ResourceNotFoundException ex) {
-
             throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-
     }
 
     @GetMapping
@@ -39,13 +35,10 @@ public class OutletController implements AbstractController<OutletDto, Long> {
     public ResponseEntity getAll() {
 
         try {
-
             return ResponseEntity.ok(outletService.getAll());
-
         } catch (BadRequestException ex) {
             throw new BadRequestException(ErrorConstants.ERR_EMPTY_LIST, HttpStatus.NO_CONTENT);
         }
-
     }
 
     @PostMapping
@@ -54,11 +47,9 @@ public class OutletController implements AbstractController<OutletDto, Long> {
 
         try {
             return ResponseEntity.ok(outletService.add(outletDto));
-
         } catch (ResourceNotFoundException ex) {
             throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-
     }
 
     @DeleteMapping("/{id}")
@@ -66,16 +57,11 @@ public class OutletController implements AbstractController<OutletDto, Long> {
     public ResponseEntity deleteById(@PathVariable Long id) {
 
         try {
-
             outletService.delete(id);
-
+            return new ResponseEntity(HttpStatus.OK);
         } catch (ResourceNotFoundException ex) {
-
             throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity(HttpStatus.OK);
-
     }
 
     @PutMapping
@@ -84,11 +70,8 @@ public class OutletController implements AbstractController<OutletDto, Long> {
 
         try {
             return ResponseEntity.ok(outletService.update(outletDto));
-
         } catch (ResourceNotFoundException ex) {
             throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-
     }
-
 }

@@ -10,14 +10,13 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @Column
     private String name;
 
     @Column
-    private Boolean deleted = false;
+    private Boolean deleted;
 
     public ProductEntity() {
     }
@@ -51,12 +50,8 @@ public class ProductEntity {
         ProductDto returnDto = new ProductDto();
 
         returnDto.setId(this.id);
-
         returnDto.setName(this.name);
-
         returnDto.setDeleted(this.deleted);
-
         return returnDto;
     }
-
 }

@@ -1,9 +1,11 @@
 package com.esl.demo.dto;
 
-import com.esl.demo.entity.ProductsOutletsEntity;
-import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
+import com.esl.demo.entity.ESLLinkEntity;
+import com.esl.demo.entity.compositeKeys.ESLLinkId;
 
-public class ProductsOutletsDto {
+public class ESLLinkDto {
+
+    private Long eslId;
 
     private Long productId;
 
@@ -11,9 +13,15 @@ public class ProductsOutletsDto {
 
     private Boolean deleted;
 
-    private Long price;
+    public ESLLinkDto() {
+    }
 
-    public ProductsOutletsDto() {
+    public Long getEslId() {
+        return eslId;
+    }
+
+    public void setEslId(Long eslId) {
+        this.eslId = eslId;
     }
 
     public Long getProductId() {
@@ -40,20 +48,10 @@ public class ProductsOutletsDto {
         this.deleted = deleted;
     }
 
-    public Long getPrice() {
-        return price;
-    }
+    public ESLLinkEntity convertToEntity() {
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
-    public ProductsOutletsEntity convertToEntity() {
-
-        ProductsOutletsEntity returnEntity = new ProductsOutletsEntity();
-
-        returnEntity.setProductsOutletsId(new ProductsOutletsLinkId(this.productId, this.outletId));
-        returnEntity.setPrice(this.price);
+        ESLLinkEntity returnEntity = new ESLLinkEntity();
+        returnEntity.setEslLinkId(new ESLLinkId(this.eslId, this.productId, this.outletId));
         returnEntity.setDeleted(this.deleted);
 
         return returnEntity;

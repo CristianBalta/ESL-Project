@@ -12,5 +12,4 @@ public interface OutletRepository extends CrudRepository<OutletEntity, Long> {
     OutletEntity getById(Long id);
 
     List<OutletEntity> findAll();
-
 }

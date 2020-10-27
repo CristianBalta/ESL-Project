@@ -28,7 +28,6 @@ public class ProductServiceImpl implements ProductService {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 })
                 .convertToDto();
-
     }
 
     @Override
@@ -37,14 +36,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream()
                 .map(ProductEntity::convertToDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public ProductDto add(ProductDto productDto) {
 
         return productRepository.save(productDto.convertToEntity()).convertToDto();
-
     }
 
     @Override
@@ -55,14 +52,9 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 });
-
-        if (productDto.getName() != null)
-        updatedEntity.setName(productDto.getName());
-        if (productDto.getDeleted() == null)
-            updatedEntity.setDeleted(productDto.getDeleted());
-
+         updatedEntity.setName(productDto.getName());
+         updatedEntity.setDeleted(productDto.getDeleted());
         return productRepository.save(updatedEntity).convertToDto();
-
     }
 
     @Override
@@ -74,6 +66,5 @@ public class ProductServiceImpl implements ProductService {
 
         deletedEntity.setDeleted(true);
         productRepository.save(deletedEntity);
-
     }
 }

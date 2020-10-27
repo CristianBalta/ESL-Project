@@ -28,7 +28,6 @@ public class OutletServiceImpl implements OutletService {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 })
                 .convertToDto();
-
     }
 
     @Override
@@ -37,14 +36,12 @@ public class OutletServiceImpl implements OutletService {
         return outletRepository.findAll().stream()
                 .map(OutletEntity::convertToDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override
     public OutletDto add(OutletDto outletDto) {
 
         return outletRepository.save(outletDto.convertToEntity()).convertToDto();
-
     }
 
     @Override
@@ -55,16 +52,11 @@ public class OutletServiceImpl implements OutletService {
                 .orElseThrow(() -> {
                     throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
                 });
-
-        if (outletDto.getName() != null)
-            updatedEntity.setName(outletDto.getName());
-        if (outletDto.getCode() != null)
-            updatedEntity.setCode(outletDto.getCode());
-        if (outletDto.getDeleted() == null)
-            updatedEntity.setDeleted(outletDto.getDeleted());
+        updatedEntity.setName(outletDto.getName());
+        updatedEntity.setCode(outletDto.getCode());
+        updatedEntity.setDeleted(outletDto.getDeleted());
 
         return outletRepository.save(updatedEntity).convertToDto();
-
     }
 
     @Override
@@ -76,6 +68,5 @@ public class OutletServiceImpl implements OutletService {
 
         deletedEntity.setDeleted(true);
         outletRepository.save(deletedEntity);
-
     }
 }
