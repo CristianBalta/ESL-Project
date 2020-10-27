@@ -3,6 +3,7 @@ package com.esl.demo.entity;
 import com.esl.demo.dto.ESLDto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "esls")
@@ -12,9 +13,11 @@ public class ESLEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "ESL size can't ne null.")
     @Column
     private String size;
 
+    @NotNull(message = "ESL deleted status can't be null.")
     @Column
     private Boolean deleted;
 

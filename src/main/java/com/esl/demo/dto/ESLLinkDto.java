@@ -3,14 +3,20 @@ package com.esl.demo.dto;
 import com.esl.demo.entity.ESLLinkEntity;
 import com.esl.demo.entity.compositeKeys.ESLLinkId;
 
+import javax.validation.constraints.NotNull;
+
 public class ESLLinkDto {
 
+    @NotNull(message = "ESL Link eslId can't be null.")
     private Long eslId;
 
+    @NotNull(message = "ESL Link productId can't be null.")
     private Long productId;
 
+    @NotNull(message = "ESL Link outletId can't be null.")
     private Long outletId;
 
+    @NotNull(message = "ESL Link deleted status can't be null.")
     private Boolean deleted;
 
     public ESLLinkDto() {

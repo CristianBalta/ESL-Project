@@ -2,18 +2,22 @@ package com.esl.demo.entity.compositeKeys;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class ESLLinkId implements Serializable {
 
+    @NotNull(message = "ESL Link eslId can't be null.")
     @Column(name = "esl_id")
     Long eslId;
 
+    @NotNull(message = "ESL Link productId can't be null.")
     @Column(name = "product_id")
     Long productId;
 
+    @NotNull(message = "ESL Link outletId can't be null.")
     @Column(name = "outlet_id")
     Long outletId;
 

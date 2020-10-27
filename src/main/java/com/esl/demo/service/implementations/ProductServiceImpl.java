@@ -3,7 +3,7 @@ package com.esl.demo.service.implementations;
 import com.esl.demo.dto.ProductDto;
 import com.esl.demo.entity.ProductEntity;
 import com.esl.demo.repository.ProductRepository;
-import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.rest.errors.ErrorConstants;
 import com.esl.demo.service.interfaces.ProductService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 })
                 .convertToDto();
     }
@@ -50,10 +50,10 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity updatedEntity = productRepository
                 .findById(productDto.getId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 });
-         updatedEntity.setName(productDto.getName());
-         updatedEntity.setDeleted(productDto.getDeleted());
+        updatedEntity.setName(productDto.getName());
+        updatedEntity.setDeleted(productDto.getDeleted());
         return productRepository.save(updatedEntity).convertToDto();
     }
 
@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
 
         ProductEntity deletedEntity = productRepository.findById(id).orElseThrow(() -> {
-            throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         deletedEntity.setDeleted(true);
