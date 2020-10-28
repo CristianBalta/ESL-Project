@@ -2,12 +2,16 @@ package com.esl.demo.dto;
 
 import com.esl.demo.entity.ESLEntity;
 
+import javax.validation.constraints.NotNull;
+
 public class ESLDto {
 
     private Long id;
 
+    @NotNull(message = "ESL size can't ne null.")
     private String size;
 
+    @NotNull(message = "ESL deleted status can't be null.")
     private Boolean deleted;
 
     public ESLDto() {

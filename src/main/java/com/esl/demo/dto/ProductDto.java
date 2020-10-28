@@ -1,13 +1,16 @@
 package com.esl.demo.dto;
 
 import com.esl.demo.entity.ProductEntity;
+import javax.validation.constraints.NotNull;
 
 public class ProductDto {
 
     private Long id;
 
+    @NotNull(message = "Product name can't be null.")
     private String name;
 
+    @NotNull(message = "Product deleted status can't be null.")
     private Boolean deleted;
 
     public ProductDto() {

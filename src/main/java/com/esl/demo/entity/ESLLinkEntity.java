@@ -4,6 +4,7 @@ import com.esl.demo.dto.ESLLinkDto;
 import com.esl.demo.entity.compositeKeys.ESLLinkId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "esl_links")
@@ -12,6 +13,7 @@ public class ESLLinkEntity {
     @EmbeddedId
     private ESLLinkId eslLinkId = new ESLLinkId();
 
+    @NotNull(message = "ESL Link deleted status can't be null.")
     @Column
     private boolean deleted;
 

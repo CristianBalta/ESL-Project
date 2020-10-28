@@ -3,7 +3,7 @@ package com.esl.demo.service.implementations;
 import com.esl.demo.dto.OutletDto;
 import com.esl.demo.entity.OutletEntity;
 import com.esl.demo.repository.OutletRepository;
-import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.rest.errors.ErrorConstants;
 import com.esl.demo.service.interfaces.OutletService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class OutletServiceImpl implements OutletService {
 
         return outletRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 })
                 .convertToDto();
     }
@@ -50,7 +50,7 @@ public class OutletServiceImpl implements OutletService {
         OutletEntity updatedEntity = outletRepository
                 .findById(outletDto.getId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 });
         updatedEntity.setName(outletDto.getName());
         updatedEntity.setCode(outletDto.getCode());
@@ -63,7 +63,7 @@ public class OutletServiceImpl implements OutletService {
     public void delete(Long id) {
 
         OutletEntity deletedEntity = outletRepository.findById(id).orElseThrow(() -> {
-            throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         deletedEntity.setDeleted(true);
