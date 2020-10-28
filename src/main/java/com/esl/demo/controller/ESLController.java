@@ -1,13 +1,13 @@
 package com.esl.demo.controller;
 
 import com.esl.demo.dto.ESLDto;
-import com.esl.demo.rest.errors.BadRequestException;
-import com.esl.demo.rest.errors.ErrorConstants;
-import com.esl.demo.rest.errors.ResourceNotFoundException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.service.interfaces.ESLService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/esls")
@@ -25,8 +25,8 @@ public class ESLController implements AbstractController<ESLDto, Long> {
 
         try {
             return ResponseEntity.ok(eslService.getById(id));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -34,22 +34,14 @@ public class ESLController implements AbstractController<ESLDto, Long> {
     @Override
     public ResponseEntity getAll() {
 
-        try {
-            return ResponseEntity.ok(eslService.getAll());
-        } catch (BadRequestException ex) {
-            throw new BadRequestException(ErrorConstants.ERR_EMPTY_LIST, HttpStatus.NO_CONTENT);
-        }
+        return ResponseEntity.ok(eslService.getAll());
     }
 
     @PostMapping
     @Override
-    public ResponseEntity add(@RequestBody ESLDto eslDto) {
+    public ResponseEntity add(@Valid @RequestBody ESLDto eslDto) {
 
-        try {
-            return ResponseEntity.ok(eslService.add(eslDto));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(eslService.add(eslDto));
     }
 
     @DeleteMapping("/{id}")
@@ -59,19 +51,19 @@ public class ESLController implements AbstractController<ESLDto, Long> {
         try {
             eslService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping
     @Override
-    public ResponseEntity update(@RequestBody ESLDto eslDto) {
+    public ResponseEntity update(@Valid @RequestBody ESLDto eslDto) {
 
         try {
             return ResponseEntity.ok(eslService.update(eslDto));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

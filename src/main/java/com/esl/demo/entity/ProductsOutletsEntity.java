@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products_outlets")
@@ -28,9 +29,11 @@ public class ProductsOutletsEntity {
     @JoinColumn(name = "outlet_id")
     private OutletEntity outlet;
 
+    @NotNull(message = "ProductsOutlets price can't be null.")
     @Column
     private Long price;
 
+    @NotNull(message = "ProductsOutlets deleted status can't be null.")
     @Column
     private Boolean deleted;
 

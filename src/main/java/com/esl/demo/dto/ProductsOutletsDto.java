@@ -2,15 +2,20 @@ package com.esl.demo.dto;
 
 import com.esl.demo.entity.ProductsOutletsEntity;
 import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
+import javax.validation.constraints.NotNull;
 
 public class ProductsOutletsDto {
 
+    @NotNull(message = "ProductsOutlets Link productId can't be null.")
     private Long productId;
 
+    @NotNull(message = "ProductsOutlets Link outletId can't be null.")
     private Long outletId;
 
+    @NotNull(message = "ProductsOutlets deleted status can't be null.")
     private Boolean deleted;
 
+    @NotNull(message = "ProductsOutlets price can't be null.")
     private Long price;
 
     public ProductsOutletsDto() {

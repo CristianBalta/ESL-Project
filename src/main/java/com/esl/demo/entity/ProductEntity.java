@@ -3,6 +3,7 @@ package com.esl.demo.entity;
 import com.esl.demo.dto.ProductDto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -12,9 +13,11 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Product name can't be null.")
     @Column
     private String name;
 
+    @NotNull(message = "Product deleted status can't be null.")
     @Column
     private Boolean deleted;
 

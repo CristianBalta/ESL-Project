@@ -8,9 +8,8 @@ import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
 import com.esl.demo.repository.OutletRepository;
 import com.esl.demo.repository.ProductRepository;
 import com.esl.demo.repository.ProductsOutletsRepository;
-import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.rest.errors.ErrorConstants;
-import com.esl.demo.rest.errors.ResourceNotFoundException;
 import com.esl.demo.service.interfaces.ProductsOutletsService;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
 
         return productsOutletsRepository.findByProductIdAndOutletId(productsOutletsLinkId.getProductId(), productsOutletsLinkId.getOutletId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 })
                 .convertToDto();
     }
@@ -60,7 +59,7 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
         ProductsOutletsEntity updatedEntity = productsOutletsRepository
                 .findByProductIdAndOutletId(productsOutletsDto.getProductId(), productsOutletsDto.getOutletId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 });
         updatedEntity.setPrice(productsOutletsDto.getPrice());
         updatedEntity.setDeleted(productsOutletsDto.getDeleted());
@@ -72,7 +71,7 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
     public void delete(ProductsOutletsLinkId productsOutletsLinkId) {
 
         ProductsOutletsEntity deletedEntity = productsOutletsRepository.findByProductIdAndOutletId(productsOutletsLinkId.getProductId(), productsOutletsLinkId.getOutletId()).orElseThrow(() -> {
-            throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         deletedEntity.setDeleted(true);
@@ -84,11 +83,11 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
         ProductsOutletsEntity returnEntity = new ProductsOutletsEntity();
 
         ProductEntity productEntity = productRepository.findById(productsOutletsDto.getProductId()).orElseThrow(() -> {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         OutletEntity outletEntity = outletRepository.findById(productsOutletsDto.getOutletId()).orElseThrow(() -> {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         returnEntity.setOutlet(outletEntity);
@@ -98,5 +97,4 @@ public class ProductsOutletsServiceImpl implements ProductsOutletsService {
 
         return returnEntity;
     }
-
 }

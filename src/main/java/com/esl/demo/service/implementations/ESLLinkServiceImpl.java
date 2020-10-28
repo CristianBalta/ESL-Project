@@ -1,15 +1,17 @@
 package com.esl.demo.service.implementations;
 
 import com.esl.demo.dto.ESLLinkDto;
-import com.esl.demo.entity.*;
+import com.esl.demo.entity.ESLEntity;
+import com.esl.demo.entity.ESLLinkEntity;
+import com.esl.demo.entity.OutletEntity;
+import com.esl.demo.entity.ProductEntity;
 import com.esl.demo.entity.compositeKeys.ESLLinkId;
 import com.esl.demo.repository.ESLLinkRepository;
 import com.esl.demo.repository.ESLRepository;
 import com.esl.demo.repository.OutletRepository;
 import com.esl.demo.repository.ProductRepository;
-import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.rest.errors.ErrorConstants;
-import com.esl.demo.rest.errors.ResourceNotFoundException;
 import com.esl.demo.service.interfaces.ESLLinkService;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class ESLLinkServiceImpl implements ESLLinkService {
 
         return eslLinkRepository.findByEslIdAndProductIdAndOutletId(eslLinkId.getEslId(), eslLinkId.getProductId(), eslLinkId.getOutletId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 })
                 .convertToDto();
     }
@@ -61,7 +63,7 @@ public class ESLLinkServiceImpl implements ESLLinkService {
         ESLLinkEntity updatedEntity = eslLinkRepository
                 .findByEslIdAndProductIdAndOutletId(eslLinkDto.getEslId(), eslLinkDto.getProductId(), eslLinkDto.getOutletId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 });
         updatedEntity.setDeleted(eslLinkDto.getDeleted());
 
@@ -72,7 +74,7 @@ public class ESLLinkServiceImpl implements ESLLinkService {
     public void delete(ESLLinkId eslLinkId) {
 
         ESLLinkEntity deletedEntity = eslLinkRepository.findByEslIdAndProductIdAndOutletId(eslLinkId.getEslId(), eslLinkId.getProductId(), eslLinkId.getOutletId()).orElseThrow(() -> {
-            throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         deletedEntity.setDeleted(true);
@@ -84,15 +86,15 @@ public class ESLLinkServiceImpl implements ESLLinkService {
         ESLLinkEntity returnEntity = new ESLLinkEntity();
 
         ESLEntity eslEntity = eslRepository.findById(eslLinkDto.getEslId()).orElseThrow(() -> {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         ProductEntity productEntity = productRepository.findById(eslLinkDto.getProductId()).orElseThrow(() -> {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         OutletEntity outletEntity = outletRepository.findById(eslLinkDto.getOutletId()).orElseThrow(() -> {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         returnEntity.setEsl(eslEntity);

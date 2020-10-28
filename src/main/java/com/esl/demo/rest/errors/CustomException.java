@@ -16,9 +16,8 @@ public class CustomException extends RuntimeException {
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-
     public HttpStatus getHttpStatus() {
-        return httpStatus;
+        return this.httpStatus;
     }
 }
 

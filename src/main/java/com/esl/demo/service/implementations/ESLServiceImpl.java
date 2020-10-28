@@ -3,7 +3,7 @@ package com.esl.demo.service.implementations;
 import com.esl.demo.dto.ESLDto;
 import com.esl.demo.entity.ESLEntity;
 import com.esl.demo.repository.ESLRepository;
-import com.esl.demo.rest.errors.BadRequestException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.rest.errors.ErrorConstants;
 import com.esl.demo.service.interfaces.ESLService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ESLServiceImpl implements ESLService {
 
         return eslRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 })
                 .convertToDto();
     }
@@ -41,9 +41,7 @@ public class ESLServiceImpl implements ESLService {
     @Override
     public ESLDto add(ESLDto eslDto) {
 
-        ESLEntity eslEntity = eslDto.convertToEntity();
-
-        return eslRepository.save(eslEntity).convertToDto();
+        return eslRepository.save(eslDto.convertToEntity()).convertToDto();
     }
 
     @Override
@@ -52,7 +50,7 @@ public class ESLServiceImpl implements ESLService {
         ESLEntity updatedEntity = eslRepository
                 .findById(eslDto.getId())
                 .orElseThrow(() -> {
-                    throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+                    throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
                 });
         updatedEntity.setSize(eslDto.getSize());
         updatedEntity.setDeleted(eslDto.getDeleted());
@@ -64,7 +62,7 @@ public class ESLServiceImpl implements ESLService {
     public void delete(Long id) {
 
         ESLEntity deletedEntity = eslRepository.findById(id).orElseThrow(() -> {
-            throw new BadRequestException(ErrorConstants.ERR_INVALID_FIELDS);
+            throw new CustomBadRequestException(ErrorConstants.ERR_ENTITY_NOT_FOUND);
         });
 
         deletedEntity.setDeleted(true);

@@ -1,13 +1,13 @@
 package com.esl.demo.controller;
 
 import com.esl.demo.dto.OutletDto;
-import com.esl.demo.rest.errors.BadRequestException;
-import com.esl.demo.rest.errors.ErrorConstants;
-import com.esl.demo.rest.errors.ResourceNotFoundException;
+import com.esl.demo.rest.errors.CustomBadRequestException;
 import com.esl.demo.service.interfaces.OutletService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/outlets")
@@ -25,8 +25,8 @@ public class OutletController implements AbstractController<OutletDto, Long> {
 
         try {
             return ResponseEntity.ok(outletService.getById(id));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -34,22 +34,14 @@ public class OutletController implements AbstractController<OutletDto, Long> {
     @Override
     public ResponseEntity getAll() {
 
-        try {
-            return ResponseEntity.ok(outletService.getAll());
-        } catch (BadRequestException ex) {
-            throw new BadRequestException(ErrorConstants.ERR_EMPTY_LIST, HttpStatus.NO_CONTENT);
-        }
+        return ResponseEntity.ok(outletService.getAll());
     }
 
     @PostMapping
     @Override
-    public ResponseEntity add(@RequestBody OutletDto outletDto) {
+    public ResponseEntity add(@Valid @RequestBody OutletDto outletDto) {
 
-        try {
-            return ResponseEntity.ok(outletService.add(outletDto));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(outletService.add(outletDto));
     }
 
     @DeleteMapping("/{id}")
@@ -59,19 +51,19 @@ public class OutletController implements AbstractController<OutletDto, Long> {
         try {
             outletService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping
     @Override
-    public ResponseEntity update(@RequestBody OutletDto outletDto) {
+    public ResponseEntity update(@Valid @RequestBody OutletDto outletDto) {
 
         try {
             return ResponseEntity.ok(outletService.update(outletDto));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResourceNotFoundException(ErrorConstants.ERR_ENTITY_NOT_FOUND, HttpStatus.NOT_FOUND);
+        } catch (CustomBadRequestException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
