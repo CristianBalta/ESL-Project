@@ -1,8 +1,8 @@
 package com.esl.demo.dto;
 
 import com.esl.demo.entity.OutletEntity;
+
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class OutletDto {
 
@@ -15,7 +15,6 @@ public class OutletDto {
     private Boolean deleted;
 
     @NotNull(message = "Outlet code can't be null.")
-    @Size(min = 2, max = 5, message = "Country code should be between 2 and 5 characters long.")
     private String code;
 
     public OutletDto() {
