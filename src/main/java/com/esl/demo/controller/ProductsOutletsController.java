@@ -3,16 +3,19 @@ package com.esl.demo.controller;
 import com.esl.demo.dto.ProductsOutletsDto;
 import com.esl.demo.entity.compositeKeys.ProductsOutletsLinkId;
 import com.esl.demo.rest.errors.CustomBadRequestException;
+import com.esl.demo.rest.errors.ErrorConstants;
 import com.esl.demo.service.interfaces.ProductsOutletsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("/api/products-outlets")
-public class ProductsOutletsController implements AbstractController<ProductsOutletsDto, ProductsOutletsLinkId> {
+public class ProductsOutletsController implements AbstractController<ProductsOutletsDto, ProductsOutletsLinkId, Errors> {
 
     private final ProductsOutletsService productsOutletsService;
 
@@ -44,10 +47,12 @@ public class ProductsOutletsController implements AbstractController<ProductsOut
 
     @PostMapping
     @Override
-    public ResponseEntity add(@Valid @RequestBody ProductsOutletsDto productsOutletsDto) {
+    public ResponseEntity add(@Valid @RequestBody ProductsOutletsDto productsOutletsDto, Errors errors) {
 
         try {
             return ResponseEntity.ok(productsOutletsService.add(productsOutletsDto));
+        } catch (ValidationException ex) {
+            return new ResponseEntity(ErrorConstants.getErrorList(errors), HttpStatus.BAD_REQUEST);
         } catch (CustomBadRequestException ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -71,10 +76,12 @@ public class ProductsOutletsController implements AbstractController<ProductsOut
 
     @PutMapping
     @Override
-    public ResponseEntity update(@Valid @RequestBody ProductsOutletsDto productsOutletsDto) {
+    public ResponseEntity update(@Valid @RequestBody ProductsOutletsDto productsOutletsDto, Errors errors) {
 
         try {
             return ResponseEntity.ok(productsOutletsService.update(productsOutletsDto));
+        } catch (ValidationException ex) {
+            return new ResponseEntity(ErrorConstants.getErrorList(errors), HttpStatus.BAD_REQUEST);
         } catch (CustomBadRequestException ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }

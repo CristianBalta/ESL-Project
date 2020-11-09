@@ -4,7 +4,6 @@ import com.esl.demo.dto.OutletDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "outlets")
@@ -23,7 +22,6 @@ public class OutletEntity {
     private Boolean deleted;
 
     @NotNull(message = "Outlet code can't be null.")
-    @Size(min = 2, max = 5, message = "Country code should be between 2 and 5 characters long.")
     @Column
     private String code;
 

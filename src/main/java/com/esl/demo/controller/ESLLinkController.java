@@ -3,16 +3,19 @@ package com.esl.demo.controller;
 import com.esl.demo.dto.ESLLinkDto;
 import com.esl.demo.entity.compositeKeys.ESLLinkId;
 import com.esl.demo.rest.errors.CustomBadRequestException;
+import com.esl.demo.rest.errors.ErrorConstants;
 import com.esl.demo.service.interfaces.ESLLinkService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("/api/esl-links")
-public class ESLLinkController implements AbstractController<ESLLinkDto, ESLLinkId> {
+public class ESLLinkController implements AbstractController<ESLLinkDto, ESLLinkId, Errors> {
 
     private final ESLLinkService eslLinkService;
 
@@ -44,10 +47,12 @@ public class ESLLinkController implements AbstractController<ESLLinkDto, ESLLink
 
     @PostMapping
     @Override
-    public ResponseEntity add(@Valid @RequestBody ESLLinkDto eslLinkDto) {
+    public ResponseEntity add(@Valid @RequestBody ESLLinkDto eslLinkDto, Errors errors) {
 
         try {
             return ResponseEntity.ok(eslLinkService.add(eslLinkDto));
+        } catch (ValidationException ex) {
+            return new ResponseEntity(ErrorConstants.getErrorList(errors), HttpStatus.BAD_REQUEST);
         } catch (CustomBadRequestException ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -71,10 +76,12 @@ public class ESLLinkController implements AbstractController<ESLLinkDto, ESLLink
 
     @PutMapping
     @Override
-    public ResponseEntity update(@Valid @RequestBody ESLLinkDto eslLinkDto) {
+    public ResponseEntity update(@Valid @RequestBody ESLLinkDto eslLinkDto, Errors errors) {
 
         try {
             return ResponseEntity.ok(eslLinkService.update(eslLinkDto));
+        } catch (ValidationException ex) {
+            return new ResponseEntity(ErrorConstants.getErrorList(errors), HttpStatus.BAD_REQUEST);
         } catch (CustomBadRequestException ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }

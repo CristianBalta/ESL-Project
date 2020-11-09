@@ -1,5 +1,5 @@
 echo "Building..."
-gradle clean build -Pspring.profiles.active=gcp -x test
+gradle clean build -Pspring.profiles.active=gcp
 echo "Building Docker image..."
 docker build -t eu.gcr.io/esl-project-293913/esl-project:latest .
 echo "Pushing Docker image..."
